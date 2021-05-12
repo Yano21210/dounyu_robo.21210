@@ -4,26 +4,56 @@ void setup() {
   pinMode(9, OUTPUT);
   pinMode(10, OUTPUT);
   pinMode(11, OUTPUT);
+  pinMode(13,OUTPUT);
 }
-void loop() {
-  // put your main code here, to run repeatedly:
+
+void brake(){
+  digitalWrite(3, HIGH); //モータがfreeになる
+  digitalWrite(9, HIGH);
+  digitalWrite(10, HIGH);
+  digitalWrite(11, HIGH);
+  digitalWrite(13, HIGH);
+  return 0;  
+}
+void free_motor(){
   digitalWrite(3, LOW); //モータがfreeになる
   digitalWrite(9, LOW);
   digitalWrite(10, LOW);
   digitalWrite(11, LOW);
-  delay(1000);//3000ms=3秒待機
-  for (int i = 0; i < 250; i++) {
-    analogWrite(3, i); //前進(のつもり
-    digitalWrite(9, LOW);
-    analogWrite(10, i);
-    digitalWrite(11, LOW);
-    delay(10);
+  digitalWrite(13, LOW);  
+  return 0;  
+}
+
+void motor(int rot,int pwm){
+  if(rot){
+  analogWrite(3, LOW); //モータがfreeになる
+  analogWrite(9, pwm);
+  analogWrite(10, pwm);
+  analogWrite(11, LOW); 
   }
-  for (int i = 250; i > 0; i--) {
-    analogWrite(3, i); //前進(のつもり
-    digitalWrite(9, LOW);
-    analogWrite(10, i);
-    digitalWrite(11, LOW);
-    delay(10);
-  }
+  else{
+  analogWrite(3, pwm );
+  analogWrite(9, LOW);
+  analogWrite(10, LOW);
+  analogWrite(11, pwm);
+  } 
+  return 0; 
+}
+
+void loop() {
+  motor(0,150);
+  delay(5000);
+  motor(1,150);
+  delay(5000);
+//  for(int i=0;i<255;i++){
+//    motor(0,i);
+//    delay(30);
+//  }
+//  brake();
+//  for(int i=0;i<255;i++){
+//    motor(1,i);
+//    delay(30);
+//  }
+//  brake();
+//  delay(3000);
 }
